@@ -10,6 +10,11 @@ const KEYS = {
 
 export default class TokenizableInput extends Component {
 
+    static defaultProps = {
+        placeHolder: null,
+        separatingCharacters: ";-"
+    }
+
     constructor(props) {
         super(props)
 
@@ -23,10 +28,18 @@ export default class TokenizableInput extends Component {
         const newText = this.state.newText || ""
 
         // When tag save keys are pressed, add the tag
-        if (e.keyCode === KEYS.ENTER || newText.charAt(newText.length - 1) == ";" || newText.charAt(newText.length - 1) == "-" ) {
+        if (e.keyCode === KEYS.ENTER || this.props.separatingCharacters.includes(e.key) ) {
             e.preventDefault()
 
-            if (newText.length >= 0) {
+            if (newText.length > 0) {
+                this.addToken(newText)
+                this.setState({ newText: "" })
+            }
+        }
+
+        if (e.keyCode === KEYS.TAB ) {
+            if (newText.length > 0) {
+                e.preventDefault()
                 this.addToken(newText)
                 this.setState({ newText: "" })
             }
@@ -72,7 +85,9 @@ export default class TokenizableInput extends Component {
                     onKeyDown={this.handleKeyDown.bind(this)}
                     onChange={e => this.setState({ newText: e.target.value })}
                     onBlur={this.handleBlur.bind(this)}
-                    value={this.state.newText} />
+                    value={this.state.newText}
+                    placeholder={this.props.placeholder || ("Usa invio, tab o " + this.props.separatingCharacters + " per separare gli elementi." )}
+                    />
             </div>
         )
     }
@@ -81,11 +96,11 @@ export default class TokenizableInput extends Component {
 class Token extends Component {
     render() {
         return (
-            <div className="flex flex-row rounded bg-gray-200">
-                <div className="overflow-hidden text-ellipsis whitespace-nowrap p-1 pl-2">
+            <div className="flex flex-row rounded bg-gray-200 max-w-full">
+                <div className="p-1 pl-2">
                     {this.props.token}
                 </div>
-                <div role="button" className="flex flex-row items-center hover:bg-[#FFBDAD] hover:text-[#DE350B] px-2" 
+                <div role="button" className="flex flex-row items-center hover:bg-[#FFBDAD] hover:text-[#DE350B] px-2"
                     onClick={() => this.props.deleteToken()}>
                     <FontAwesomeIcon icon={solid('x')} className="text-[0.5rem]" />
                 </div>
