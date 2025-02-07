@@ -78,7 +78,7 @@ export default class TokenizableInput extends Component {
 
     render() {
         return (
-            <div className="pretendToBeInput flex flex-row flex-wrap w-full items-start gap-1" type="text">
+            <div className="rounded-md bg-gray-100 border-transparent focus-within:border-gray-500 focus-within:ring-0 flex flex-row flex-wrap w-full items-start gap-1" type="text">
                 {this.props.tokensList.map((token, i) => <Token key={i} token={token} deleteToken={() => this.deleteToken(i)} />)}
                 <input
                     className="w-full bg-transparent appearance-none !outline-none"
