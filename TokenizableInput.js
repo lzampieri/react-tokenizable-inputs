@@ -32,7 +32,7 @@ export default class TokenizableInput extends Component {
             e.preventDefault()
 
             if (newText.length > 0) {
-                this.addToken(newText)
+                this.addToken(newText, this.props.separatingCharacters)
                 this.setState({ newText: "" })
             }
         }
@@ -59,11 +59,11 @@ export default class TokenizableInput extends Component {
         this.setState({ newText: "" })
     }
 
-    addToken(token) {
-        const toAdd = token.replace(/^[^a-zA-Z\d]+|[^a-zA-Z\d]+$/g, "")
+    addToken(token, separatingCharacters) {
+        const toAdd = token.split(new RegExp( "[" + separatingCharacters + "\n\r\t ]+" )).filter(t => t.length > 0)
         if (toAdd.length > 0) {
             let newList = this.props.tokensList.slice()
-            newList.push(toAdd)
+            newList.push(...toAdd)
             this.props.updateTokensList(newList)
         }
     }
@@ -96,7 +96,7 @@ export default class TokenizableInput extends Component {
 class Token extends Component {
     render() {
         return (
-            <div className="flex flex-row rounded bg-gray-200 max-w-full">
+            <div className="flex flex-row rounded bg-gray-200 max-w-full" style={{ overflowWrap: "anywhere" }}>
                 <div className="p-1 pl-2">
                     {this.props.token}
                 </div>
