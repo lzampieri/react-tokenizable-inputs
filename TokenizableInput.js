@@ -40,7 +40,7 @@ export default class TokenizableInput extends Component {
         if (e.keyCode === KEYS.TAB ) {
             if (newText.length > 0) {
                 e.preventDefault()
-                this.addToken(newText)
+                this.addToken(newText, this.props.separatingCharacters)
                 this.setState({ newText: "" })
             }
         }
@@ -60,7 +60,8 @@ export default class TokenizableInput extends Component {
     }
 
     addToken(token, separatingCharacters) {
-        const toAdd = token.split(new RegExp( "[" + separatingCharacters + "\n\r\t ]+" )).filter(t => t.length > 0)
+        console.log( "[" + separatingCharacters + "\n\r\t]+" );
+        const toAdd = token.split(new RegExp( "[" + separatingCharacters + "\n\r\t]+" )).filter(t => t.length > 0)
         if (toAdd.length > 0) {
             let newList = this.props.tokensList.slice()
             newList.push(...toAdd)
