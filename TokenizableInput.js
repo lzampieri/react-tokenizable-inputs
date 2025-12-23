@@ -1,4 +1,6 @@
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+
+
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Component } from "react";
 
@@ -28,7 +30,7 @@ export default class TokenizableInput extends Component {
         const newText = this.state.newText || ""
 
         // When tag save keys are pressed, add the tag
-        if (e.keyCode === KEYS.ENTER || this.props.separatingCharacters.includes(e.key) ) {
+        if (e.keyCode === KEYS.ENTER || this.props.separatingCharacters.includes(e.key)) {
             e.preventDefault()
 
             if (newText.length > 0) {
@@ -37,7 +39,7 @@ export default class TokenizableInput extends Component {
             }
         }
 
-        if (e.keyCode === KEYS.TAB ) {
+        if (e.keyCode === KEYS.TAB) {
             if (newText.length > 0) {
                 e.preventDefault()
                 this.addToken(newText)
@@ -61,8 +63,7 @@ export default class TokenizableInput extends Component {
 
     addToken(token) {
         const separatingCharacters = this.props.separatingCharacters || "";
-        console.log( "[" + separatingCharacters + "\n\r\t]+" );
-        const toAdd = token.split(new RegExp( "[" + separatingCharacters + "\n\r\t]+" )).filter(t => t.length > 0)
+        const toAdd = token.split(new RegExp("[" + separatingCharacters + "\n\r\t]+")).filter(t => t.length > 0)
         if (toAdd.length > 0) {
             let newList = this.props.tokensList.slice()
             newList.push(...toAdd)
@@ -88,8 +89,8 @@ export default class TokenizableInput extends Component {
                     onChange={e => this.setState({ newText: e.target.value })}
                     onBlur={this.handleBlur.bind(this)}
                     value={this.state.newText}
-                    placeholder={this.props.placeholder || ("Usa invio, tab o " + this.props.separatingCharacters + " per separare gli elementi." )}
-                    />
+                    placeholder={this.props.placeholder || ("Usa invio, tab o " + this.props.separatingCharacters + " per separare gli elementi.")}
+                />
             </div>
         )
     }
@@ -104,7 +105,7 @@ class Token extends Component {
                 </div>
                 <div role="button" className="flex flex-row items-center hover:bg-[#FFBDAD] hover:text-[#DE350B] px-2"
                     onClick={() => this.props.deleteToken()}>
-                    <FontAwesomeIcon icon={solid('x')} className="text-[0.5rem]" />
+                    <FontAwesomeIcon icon={faX} className="text-[0.5rem]" />
                 </div>
             </div>
         )
