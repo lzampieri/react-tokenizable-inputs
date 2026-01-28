@@ -84,6 +84,7 @@ export default class TokenizableInput extends Component {
             <div className="rounded-md bg-gray-100 border-transparent focus-within:border-gray-500 focus-within:ring-0 flex flex-row flex-wrap w-full items-start gap-1" type="text">
                 {this.props.tokensList.map((token, i) => <Token key={i} token={token} deleteToken={() => this.deleteToken(i)} />)}
                 <input
+                    type="text"
                     className="w-full bg-transparent appearance-none !outline-none"
                     onKeyDown={this.handleKeyDown.bind(this)}
                     onChange={e => this.setState({ newText: e.target.value })}
